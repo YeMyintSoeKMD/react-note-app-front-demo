@@ -170,7 +170,7 @@ export const Dashboard = () => {
                 Categories
               </button>
             </Link>
-            <Link to="/dashboard/archive">
+            <Link to="/archives">
               <button className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition duration-200 flex items-center">
                 <ArchiveBoxIcon className="size-5 mr-2" />
                 <span className="hidden md:inline">Archive</span>

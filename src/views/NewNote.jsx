@@ -8,22 +8,20 @@ export const NewNote = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [uploadedImages, setUploadedImages] = useState([]);
   const [content, setContent] = useState("");
+
+  const [uploadedImage, setUploadedImage] = useState(null);
   const imageInputRef = useRef(null);
 
   const handleImageUpload = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const newImages = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setUploadedImages((prev) => [...prev, ...newImages]);
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedImage(URL.createObjectURL(file));
     }
   };
 
-  const removeImage = (index) => {
-    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
+  const removeImage = () => {
+    setUploadedImage(null);
   };
 
   return (
@@ -99,7 +97,6 @@ export const NewNote = () => {
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                   <input
                     type="file"
-                    multiple
                     accept="image/*"
                     onChange={handleImageUpload}
                     className="hidden"
@@ -115,26 +112,23 @@ export const NewNote = () => {
                   </button>
                 </div>
 
-                {/* Uploaded Images Preview */}
-                {uploadedImages.length > 0 && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                    {uploadedImages.map((image, index) => (
-                      <div key={index} className="relative">
-                        <img
-                          src={image}
-                          alt={`Upload ${index + 1}`}
-                          className="w-full h-24 object-cover rounded-lg"
-                        />
-                        <button
-                          onClick={() => removeImage(index)}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
-                        >
-                          <XMarkIcon className="h-5 w-5" />
-                        </button>
-                      </div>
-                    ))}
+                {/* Uploaded Image Preview */}
+                {
+                  uploadedImage &&
+                  <div className="relative w-24 h-24 mt-4">
+                    <img
+                      src={uploadedImage}
+                      alt={`Upload`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                    <button
+                      onClick={() => removeImage()}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                    >
+                      <XMarkIcon className="h-5 w-5" />
+                    </button>
                   </div>
-                )}
+                }
               </div>
 
               {/* Content */}
